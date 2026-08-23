@@ -1,4 +1,4 @@
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+const API_URL = 'https://peshkash-liquor-ecommerce.vercel.app/api' || 'http://localhost:5000/api';
 
 export class ApiError extends Error {
   constructor(message, status, code, details) {
