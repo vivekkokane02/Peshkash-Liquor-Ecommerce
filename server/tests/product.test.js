@@ -144,3 +144,12 @@ describe('GET /health', () => {
     expect(res.body.success).toBe(true);
   });
 });
+
+describe('GET /api', () => {
+  test('reports the API entry point', async () => {
+    const res = await request(app).get('/api');
+    expect(res.status).toBe(200);
+    expect(res.body.success).toBe(true);
+    expect(res.body.data.products).toBe('/api/products');
+  });
+});

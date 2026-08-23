@@ -45,6 +45,14 @@ export function createApp() {
     res.status(200).json({ success: true, message: 'OK', data: { uptime: process.uptime() } });
   });
 
+  app.get('/api', (_req, res) => {
+    res.status(200).json({
+      success: true,
+      message: 'Reserve Liquor API',
+      data: { products: '/api/products' },
+    });
+  });
+
   app.use('/api/products', productRoutes);
 
   app.use(notFoundHandler);
