@@ -1,0 +1,126 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.bg-ink { background-color: rgb(var(--ink) / 1) !important; }
+.bg-surface { background-color: rgb(var(--surface) / 1) !important; }
+.bg-surface2 { background-color: rgb(var(--surface-2) / 1) !important; }
+.bg-gold { background-color: rgb(var(--gold) / 1) !important; }
+.text-ink { color: rgb(var(--ink) / 1) !important; }
+.text-bone { color: rgb(var(--bone) / 1) !important; }
+.text-stone { color: rgb(var(--stone) / 1) !important; }
+.text-gold { color: rgb(var(--gold) / 1) !important; }
+.text-goldSoft { color: rgb(var(--gold-soft) / 1) !important; }
+.text-burgundy { color: rgb(var(--burgundy) / 1) !important; }
+.border-gold { border-color: rgb(var(--gold) / 1) !important; }
+
+.eyebrow { display: flex; align-items: center; gap: 0.65rem; color: rgb(var(--gold) / 1); font-size: 0.625rem; line-height: 1; letter-spacing: 0.28em; text-transform: uppercase; }
+.eyebrow span { width: 1.75rem; height: 1px; background: rgb(var(--gold) / 0.8); }
+.hero-vessel, .product-image { background-image: linear-gradient(135deg, rgb(var(--surface-2) / 0.95), rgb(var(--surface) / 0.65)); box-shadow: inset 0 1px 0 rgb(var(--gold) / 0.12), 0 1.5rem 4rem rgb(var(--ink) / 0.12); }
+.hero-vessel::after { content: 'THE RESERVE EDIT'; position: absolute; margin: 1.25rem; color: rgb(var(--stone) / 0.7); font-size: 0.55rem; letter-spacing: 0.28em; }
+.hero-stats { max-width: 28rem; }
+.hero-stats div { display: flex; flex-direction: column; gap: 0.3rem; }
+.hero-stats strong { color: rgb(var(--bone) / 1); font-family: 'Playfair Display', serif; font-size: 1.15rem; font-weight: 500; }
+.hero-stats span, .catalog-count { color: rgb(var(--stone) / 1); font-size: 0.58rem; letter-spacing: 0.12em; text-transform: uppercase; }
+.catalog-count b { color: rgb(var(--gold) / 1); font-weight: 500; }
+.premium-button { display: inline-flex; align-items: center; gap: 1.25rem; }
+.premium-button span { font-size: 1rem; line-height: 0; transition: transform 180ms ease; }
+.premium-button:hover span { transform: translateX(0.2rem); }
+.product-card { box-shadow: 0 1rem 3rem rgb(var(--ink) / 0.08); }
+.product-card:hover .product-image { background-image: linear-gradient(135deg, rgb(var(--gold) / 0.08), rgb(var(--surface) / 0.7)); }
+.category-strip { display: flex; gap: 0.5rem; overflow-x: auto; padding-bottom: 0.5rem; border-bottom: 1px solid rgb(var(--bone) / 0.1); scrollbar-width: thin; scrollbar-color: rgb(var(--gold) / 0.7) transparent; }
+.category-tab { flex: 0 0 auto; display: inline-flex; align-items: center; gap: 0.55rem; padding: 0.7rem 0.9rem; color: rgb(var(--stone) / 1); font-size: 0.65rem; letter-spacing: 0.16em; text-transform: uppercase; border-bottom: 1px solid transparent; transition: color 180ms ease, border-color 180ms ease; }
+.category-tab span { color: rgb(var(--gold) / 1); font-size: 0.55rem; letter-spacing: 0; }
+.category-tab:hover, .category-tab.is-active { color: rgb(var(--bone) / 1); border-color: rgb(var(--gold) / 1); }
+
+[class~="bg-ink/70"] { background-color: rgb(var(--ink) / 0.7) !important; }
+[class~="bg-ink/90"] { background-color: rgb(var(--ink) / 0.9) !important; }
+[class~="bg-ink/95"] { background-color: rgb(var(--ink) / 0.95) !important; }
+[class~="bg-gold/10"] { background-color: rgb(var(--gold) / 0.1) !important; }
+[class~="bg-gold/15"] { background-color: rgb(var(--gold) / 0.15) !important; }
+[class~="text-stone/70"] { color: rgb(var(--stone) / 0.7) !important; }
+[class~="border-gold/30"] { border-color: rgb(var(--gold) / 0.3) !important; }
+[class~="border-gold/40"] { border-color: rgb(var(--gold) / 0.4) !important; }
+[class~="border-gold/50"] { border-color: rgb(var(--gold) / 0.5) !important; }
+[class~="hover:bg-gold"]:hover { background-color: rgb(var(--gold) / 1) !important; }
+[class~="hover:bg-goldSoft"]:hover { background-color: rgb(var(--gold-soft) / 1) !important; }
+[class~="hover:text-ink"]:hover { color: rgb(var(--ink) / 1) !important; }
+[class~="hover:text-gold"]:hover { color: rgb(var(--gold) / 1) !important; }
+[class~="hover:text-bone"]:hover { color: rgb(var(--bone) / 1) !important; }
+[class~="hover:text-burgundy"]:hover { color: rgb(var(--burgundy) / 1) !important; }
+[class~="focus:border-gold"]:focus { border-color: rgb(var(--gold) / 1) !important; }
+
+html {
+  scroll-behavior: smooth;
+  --ink: 11 10 12;
+  --surface: 22 19 26;
+  --surface-2: 30 26 34;
+  --gold: 201 162 39;
+  --gold-soft: 228 197 94;
+  --burgundy: 122 31 43;
+  --bone: 237 232 226;
+  --stone: 139 134 128;
+  color-scheme: dark;
+  transition: background-color 220ms ease, color 220ms ease;
+}
+
+html.theme-light {
+  --ink: 247 244 238;
+  --surface: 255 252 246;
+  --surface-2: 239 234 225;
+  --gold: 148 105 19;
+  --gold-soft: 181 135 28;
+  --burgundy: 139 45 54;
+  --bone: 35 31 27;
+  --stone: 100 94 86;
+  color-scheme: light;
+}
+
+body {
+  @apply bg-ink text-bone font-body antialiased;
+  min-width: 320px;
+  background-image:
+    linear-gradient(rgb(var(--ink) / 0.9), rgb(var(--ink) / 0.96)),
+    radial-gradient(circle at 12% 8%, rgb(var(--gold) / 0.08), transparent 28rem),
+    radial-gradient(circle at 88% 78%, rgb(var(--burgundy) / 0.08), transparent 30rem);
+  background-attachment: fixed;
+  transition: background-color 220ms ease, color 220ms ease;
+}
+
+::selection {
+  background: rgb(var(--gold) / 1);
+  color: rgb(var(--ink) / 1);
+}
+
+/* Visible keyboard focus everywhere */
+:focus-visible {
+  outline: 2px solid rgb(var(--gold) / 1);
+  outline-offset: 3px;
+}
+
+.foil-rule {
+  height: 1px;
+  width: 100%;
+  background: linear-gradient(90deg, transparent, rgb(var(--gold) / 1) 50%, transparent);
+  opacity: 0.6;
+}
+
+html.theme-light [class*="border-white/"] {
+  border-color: rgb(35 31 27 / 0.14);
+}
+
+html.theme-light [class*="border-white/"]:hover {
+  border-color: rgb(var(--gold) / 0.65);
+}
+
+html.theme-light [class*="text-white/"] {
+  color: rgb(35 31 27 / 0.68);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
