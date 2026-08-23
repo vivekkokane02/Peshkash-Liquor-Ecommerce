@@ -41,6 +41,14 @@ export function createApp() {
     return writeLimiter(req, res, next);
   });
 
+  app.get('/', (_req, res) => {
+    res.status(200).json({
+      success: true,
+      message: 'Reserve Liquor API is running',
+      data: { api: '/api', health: '/health' },
+    });
+  });
+
   app.get('/health', (_req, res) => {
     res.status(200).json({ success: true, message: 'OK', data: { uptime: process.uptime() } });
   });

@@ -145,6 +145,15 @@ describe('GET /health', () => {
   });
 });
 
+describe('GET /', () => {
+  test('reports that the API is running', async () => {
+    const res = await request(app).get('/');
+    expect(res.status).toBe(200);
+    expect(res.body.success).toBe(true);
+    expect(res.body.data.api).toBe('/api');
+  });
+});
+
 describe('GET /api', () => {
   test('reports the API entry point', async () => {
     const res = await request(app).get('/api');
