@@ -11,7 +11,7 @@ export default function Navbar({ darkMode, onToggleTheme, onOpenCart, onOpenAuth
     <header className="sticky top-0 z-40 bg-ink/90 backdrop-blur border-b border-white/10">
       <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
         <Link to="/" className="font-display text-2xl tracking-wide text-bone">
-          RESERVE
+          PESHKASH
         </Link>
 
         <nav className="hidden md:flex items-center gap-8 text-xs uppercase tracking-widest2 text-stone">

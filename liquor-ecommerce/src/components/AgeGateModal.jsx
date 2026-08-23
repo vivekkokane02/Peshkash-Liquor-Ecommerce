@@ -4,7 +4,7 @@ export default function AgeGateModal({ onConfirm, onDecline }) {
   return (
     <div className="fixed inset-0 z-[100] bg-ink/95 flex items-center justify-center px-6">
       <div className="max-w-md w-full text-center">
-        <div className="font-display text-3xl text-bone mb-4">RESERVE</div>
+        <div className="font-display text-3xl text-bone mb-4">PESHKASH</div>
         <div className="foil-rule mb-6" />
         <p className="text-stone text-sm leading-relaxed mb-8">
           This site sells alcoholic beverages. You must be of legal drinking age in your
