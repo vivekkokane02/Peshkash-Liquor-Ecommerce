@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { getProduct } from '../services/productService.js';
+import { deleteProduct, getProduct } from '../services/productService.js';
 import { ApiError } from '../services/apiClient.js';
 import ProductImage from '../components/ProductImage.jsx';
 import { useCart } from '../context/CartContext.jsx';
@@ -15,6 +15,8 @@ export default function ProductDetail({ onRequireAuth }) {
   const [qty, setQty] = useState(1);
   const [added, setAdded] = useState(false);
   const navigate = useNavigate();
+  const [deleteStatus, setDeleteStatus] = useState('idle');
+  const [deleteError, setDeleteError] = useState('');
 
   useEffect(() => {
     let cancelled = false;
@@ -71,6 +73,19 @@ export default function ProductDetail({ onRequireAuth }) {
     setTimeout(() => setAdded(false), 1800);
   };
 
+  const handleDelete = async () => {
+    if (!window.confirm(`Delete ${product.name} from the catalog?`)) return;
+    setDeleteStatus('deleting');
+    setDeleteError('');
+    try {
+      await deleteProduct(product.id);
+      navigate('/');
+    } catch (error) {
+      setDeleteStatus('idle');
+      setDeleteError(error instanceof ApiError ? error.message : 'Could not delete the product. Try again.');
+    }
+  };
+
   return (
     <div className="max-w-6xl mx-auto px-6 py-14">
       <Link to="/" className="text-xs text-stone hover:text-gold uppercase tracking-widest2">
@@ -104,6 +119,16 @@ export default function ProductDetail({ onRequireAuth }) {
           <div className="foil-rule mb-6" />
 
           <div className="text-2xl text-bone mb-6">&#8377;{product.price.toLocaleString('en-IN')}</div>
+
+          <div className="flex gap-3 mb-6">
+            <Link to={`/products/${product.id}/edit`} className="border border-white/20 px-4 py-2 text-xs uppercase tracking-widest2 text-stone hover:border-gold hover:text-gold transition-colors">
+              Edit product
+            </Link>
+            <button type="button" onClick={handleDelete} disabled={deleteStatus === 'deleting'} className="border border-burgundy/60 px-4 py-2 text-xs uppercase tracking-widest2 text-burgundy hover:bg-burgundy/10 transition-colors disabled:cursor-wait disabled:opacity-60">
+              {deleteStatus === 'deleting' ? 'Deleting...' : 'Delete product'}
+            </button>
+          </div>
+          {deleteError && <p role="alert" className="mb-6 text-sm text-burgundy">{deleteError}</p>}
 
           <div className="flex items-center gap-4 mb-6">
             <div className="flex items-center gap-2">
