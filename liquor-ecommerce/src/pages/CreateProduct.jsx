@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { createProduct } from '../services/productService.js';
+import React, { useEffect, useState } from 'react';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import { createProduct, getProduct, updateProduct } from '../services/productService.js';
 import { ApiError } from '../services/apiClient.js';
 
 const categories = [
@@ -51,11 +51,40 @@ function Field({ label, name, value, onChange, error, type = 'text', placeholder
 }
 
 export default function CreateProduct() {
+  const { id } = useParams();
+  const isEditing = Boolean(id);
   const [form, setForm] = useState(initialForm);
   const [errors, setErrors] = useState({});
   const [submitError, setSubmitError] = useState('');
-  const [status, setStatus] = useState('idle');
+  const [status, setStatus] = useState(isEditing ? 'loading' : 'idle');
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!isEditing) return undefined;
+    let cancelled = false;
+    getProduct(id)
+      .then((product) => {
+        if (cancelled) return;
+        setForm({
+          name: product.name || '',
+          batch: product.batch || '',
+          category: product.category || initialForm.category,
+          price: String(product.price ?? ''),
+          volume: product.volume || '',
+          abv: product.abv || '',
+          color: product.color || initialForm.color,
+          image: product.image || '',
+          description: product.description || '',
+        });
+        setStatus('idle');
+      })
+      .catch((error) => {
+        if (cancelled) return;
+        setStatus('error');
+        setSubmitError(error instanceof ApiError ? error.message : 'Could not load the product. Try again.');
+      });
+    return () => { cancelled = true; };
+  }, [id, isEditing]);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -90,12 +119,13 @@ export default function CreateProduct() {
     setStatus('submitting');
     setSubmitError('');
     try {
-      const product = await createProduct({
+      const payload = {
         ...form,
         price: Number(form.price),
         batch: form.batch || undefined,
         color: form.color || undefined,
-      });
+      };
+      const product = isEditing ? await updateProduct(id, payload) : await createProduct(payload);
       navigate(`/product/${product.id}`);
     } catch (error) {
       setStatus('idle');
@@ -105,16 +135,18 @@ export default function CreateProduct() {
 
   return (
     <div className="max-w-6xl mx-auto px-6 py-14">
-      <Link to="/" className="text-xs text-stone hover:text-gold uppercase tracking-widest2">
+      <Link to={isEditing ? `/product/${id}` : '/'} className="text-xs text-stone hover:text-gold uppercase tracking-widest2">
         &larr; Back to catalog
       </Link>
 
       <div className="max-w-3xl mt-8">
         <div className="eyebrow mb-4"><span /> Catalog management</div>
-        <h1 className="font-display text-4xl md:text-5xl text-bone mb-3">Add a bottle</h1>
-        <p className="text-stone text-sm leading-relaxed mb-10">Create a new listing for the Reserve collection.</p>
+        <h1 className="font-display text-4xl md:text-5xl text-bone mb-3">{isEditing ? 'Edit bottle' : 'Add a bottle'}</h1>
+        <p className="text-stone text-sm leading-relaxed mb-10">{isEditing ? 'Update this listing in the Reserve collection.' : 'Create a new listing for the Reserve collection.'}</p>
 
-        <form onSubmit={handleSubmit} className="border-t border-white/10 pt-8">
+        {status === 'loading' && <p className="text-stone text-sm">Loading product...</p>}
+
+        {(status === 'idle' || status === 'submitting') && <form onSubmit={handleSubmit} className="border-t border-white/10 pt-8">
           <div className="grid md:grid-cols-2 gap-6">
             <Field label="Name" name="name" value={form.name} onChange={handleChange} error={errors.name} placeholder="e.g. The Reserve 12" />
             <Field label="Batch" name="batch" value={form.batch} onChange={handleChange} error={errors.batch} placeholder="e.g. Batch 04" required={false} />
@@ -143,11 +175,11 @@ export default function CreateProduct() {
 
           <div className="flex items-center gap-5 mt-8">
             <button type="submit" disabled={status === 'submitting'} className="premium-button px-6 py-3 bg-gold text-ink text-xs uppercase tracking-widest2 font-semibold hover:bg-goldSoft transition-colors disabled:cursor-wait disabled:opacity-60">
-              {status === 'submitting' ? 'Creating...' : 'Create product'} <span aria-hidden="true">&#8594;</span>
+              {status === 'submitting' ? (isEditing ? 'Saving...' : 'Creating...') : (isEditing ? 'Save changes' : 'Create product')} <span aria-hidden="true">&#8594;</span>
             </button>
             <Link to="/" className="text-xs uppercase tracking-widest2 text-stone hover:text-gold">Cancel</Link>
           </div>
-        </form>
+        </form>}
       </div>
     </div>
   );
