@@ -63,6 +63,7 @@ export default function App() {
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/order-success" element={<OrderSuccess />} />
           <Route path="/products/new" element={<CreateProduct />} />
+          <Route path="/products/:id/edit" element={<CreateProduct />} />
         </Routes>
       </main>
 
